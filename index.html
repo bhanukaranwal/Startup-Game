@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karanwal Capital Investment Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="kc-game-container">
+        <!-- Game Header -->
+        <header class="kc-game-header">
+            <div class="kc-game-logo">
+                <h1>Karanwal Capital</h1>
+                <p class="kc-game-subtitle">Investment Simulation Game</p>
+            </div>
+            <div class="kc-game-stats-bar">
+                <div class="kc-game-stat">
+                    <span class="kc-game-stat-label">Fund Size</span>
+                    <span class="kc-game-stat-value" id="fund-size">$10.0M</span>
+                </div>
+                <div class="kc-game-stat">
+                    <span class="kc-game-stat-label">Cash</span>
+                    <span class="kc-game-stat-value" id="cash-reserves">$10.0M</span>
+                </div>
+                <div class="kc-game-stat">
+                    <span class="kc-game-stat-label">Reputation</span>
+                    <span class="kc-game-stat-value" id="reputation-score">50</span>
+                </div>
+                <div class="kc-game-stat">
+                    <span class="kc-game-stat-label">Month</span>
+                    <span class="kc-game-stat-value" id="current-month">1/12</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="kc-game-tabs">
+            <button class="kc-game-tab active" data-tab="startups">
+                <span>🚀</span> Startups
+            </button>
+            <button class="kc-game-tab" data-tab="portfolio">
+                <span>📊</span> Portfolio
+            </button>
+            <button class="kc-game-tab" data-tab="dashboard">
+                <span>📈</span> Dashboard
+            </button>
+            <button class="kc-game-tab" data-tab="news">
+                <span>📰</span> News
+            </button>
+            <button class="kc-game-tab" data-tab="settings">
+                <span>⚙️</span> Settings
+            </button>
+        </nav>
+
+        <!-- News Ticker -->
+        <div class="kc-game-news-ticker" id="news-ticker">
+            <div class="kc-game-news-content">
+                <span>📈 Welcome to Karanwal Capital! You have $10M to invest in promising startups.</span>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <main class="kc-game-main">
+            <!-- Startups Tab -->
+            <section id="tab-startups" class="kc-game-tab-content active">
+                <div class="kc-game-section-header">
+                    <h2>Available Startups</h2>
+                    <div class="kc-game-filters">
+                        <select id="industry-filter" class="form-control">
+                            <option value="">All Industries</option>
+                        </select>
+                        <select id="stage-filter" class="form-control">
+                            <option value="">All Stages</option>
+                        </select>
+                        <select id="country-filter" class="form-control">
+                            <option value="">All Countries</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="kc-game-startup-grid" id="startup-grid">
+                    <!-- Startup cards will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Portfolio Tab -->
+            <section id="tab-portfolio" class="kc-game-tab-content">
+                <div class="kc-game-section-header">
+                    <h2>Your Portfolio</h2>
+                    <div class="kc-game-portfolio-summary">
+                        <div class="kc-game-portfolio-stat">
+                            <span class="kc-game-portfolio-label">Total Invested</span>
+                            <span class="kc-game-portfolio-value" id="total-invested">$0</span>
+                        </div>
+                        <div class="kc-game-portfolio-stat">
+                            <span class="kc-game-portfolio-label">Current Value</span>
+                            <span class="kc-game-portfolio-value" id="portfolio-value">$0</span>
+                        </div>
+                        <div class="kc-game-portfolio-stat">
+                            <span class="kc-game-portfolio-label">ROI</span>
+                            <span class="kc-game-portfolio-value" id="portfolio-roi">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="kc-game-portfolio-grid" id="portfolio-grid">
+                    <!-- Portfolio items will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Dashboard Tab -->
+            <section id="tab-dashboard" class="kc-game-tab-content">
+                <div class="kc-game-section-header">
+                    <h2>Performance Dashboard</h2>
+                </div>
+                <div class="kc-game-dashboard-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Portfolio Breakdown</h3>
+                            <div class="kc-game-chart-container" style="position: relative; height: 300px;">
+                                <canvas id="portfolio-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Performance Metrics</h3>
+                            <div class="kc-game-metrics">
+                                <div class="kc-game-metric">
+                                    <span class="kc-game-metric-label">Total Investments</span>
+                                    <span class="kc-game-metric-value" id="total-investments">0</span>
+                                </div>
+                                <div class="kc-game-metric">
+                                    <span class="kc-game-metric-label">Active Investments</span>
+                                    <span class="kc-game-metric-value" id="active-investments">0</span>
+                                </div>
+                                <div class="kc-game-metric">
+                                    <span class="kc-game-metric-label">Success Rate</span>
+                                    <span class="kc-game-metric-value" id="success-rate">0%</span>
+                                </div>
+                                <div class="kc-game-metric">
+                                    <span class="kc-game-metric-label">Average Return</span>
+                                    <span class="kc-game-metric-value" id="avg-return">0x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News Tab -->
+            <section id="tab-news" class="kc-game-tab-content">
+                <div class="kc-game-section-header">
+                    <h2>Market News & Events</h2>
+                </div>
+                <div class="kc-game-news-feed" id="news-feed">
+                    <!-- News items will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section id="tab-settings" class="kc-game-tab-content">
+                <div class="kc-game-section-header">
+                    <h2>Game Settings</h2>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <div class="form-group">
+                            <label class="form-label">Game Speed</label>
+                            <select id="game-speed" class="form-control">
+                                <option value="1">Normal (1x)</option>
+                                <option value="2">Fast (2x)</option>
+                                <option value="4">Very Fast (4x)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn--secondary" id="save-game">Save Game</button>
+                            <button class="btn btn--secondary" id="load-game">Load Game</button>
+                            <button class="btn btn--outline" id="reset-game">Reset Game</button>
+                        </div>
+                        <div class="form-group">
+                            <h4>Instructions</h4>
+                            <p>As a venture capitalist at Karanwal Capital, your goal is to build a successful portfolio by investing in promising startups. Monitor market conditions, perform due diligence, and make strategic investments to maximize returns and reputation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Over Modal -->
+        <div id="game-over-modal" class="kc-game-modal hidden">
+            <div class="kc-game-modal-content">
+                <div class="kc-game-modal-header">
+                    <h2>Cycle Complete!</h2>
+                </div>
+                <div class="kc-game-modal-body">
+                    <div class="kc-game-performance-summary">
+                        <h3>Performance Summary</h3>
+                        <div class="kc-game-performance-stats">
+                            <div class="kc-game-performance-stat">
+                                <span class="kc-game-performance-label">Final Portfolio Value</span>
+                                <span class="kc-game-performance-value" id="final-value">$0</span>
+                            </div>
+                            <div class="kc-game-performance-stat">
+                                <span class="kc-game-performance-label">Total Return</span>
+                                <span class="kc-game-performance-value" id="total-return">0%</span>
+                            </div>
+                            <div class="kc-game-performance-stat">
+                                <span class="kc-game-performance-label">Final Reputation</span>
+                                <span class="kc-game-performance-value" id="final-reputation">50</span>
+                            </div>
+                        </div>
+                        <div class="kc-game-benchmark">
+                            <p id="benchmark-text">Performance compared to industry benchmark</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="kc-game-modal-footer">
+                    <button class="btn btn--primary" id="new-cycle">Start New Cycle</button>
+                    <button class="btn btn--secondary" id="continue-game">Continue Playing</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Modal -->
+        <div id="investment-modal" class="kc-game-modal hidden">
+            <div class="kc-game-modal-content kc-game-modal-large">
+                <div class="kc-game-modal-header">
+                    <h2 id="startup-modal-name">Startup Details</h2>
+                    <button class="kc-game-modal-close">&times;</button>
+                </div>
+                <div class="kc-game-modal-body">
+                    <div class="kc-game-startup-details">
+                        <div class="kc-game-startup-info">
+                            <div class="kc-game-startup-meta">
+                                <span class="kc-game-startup-industry" id="startup-modal-industry"></span>
+                                <span class="kc-game-startup-stage" id="startup-modal-stage"></span>
+                                <span class="kc-game-startup-country" id="startup-modal-country"></span>
+                            </div>
+                            <p class="kc-game-startup-description" id="startup-modal-description"></p>
+                            
+                            <div class="kc-game-startup-metrics">
+                                <div class="kc-game-startup-metric">
+                                    <span class="kc-game-metric-label">Valuation</span>
+                                    <span class="kc-game-metric-value" id="startup-modal-valuation">$0</span>
+                                </div>
+                                <div class="kc-game-startup-metric">
+                                    <span class="kc-game-metric-label">Funding Ask</span>
+                                    <span class="kc-game-metric-value" id="startup-modal-funding">$0</span>
+                                </div>
+                                <div class="kc-game-startup-metric">
+                                    <span class="kc-game-metric-label">Revenue</span>
+                                    <span class="kc-game-metric-value" id="startup-modal-revenue">$0</span>
+                                </div>
+                                <div class="kc-game-startup-metric">
+                                    <span class="kc-game-metric-label">Burn Rate</span>
+                                    <span class="kc-game-metric-value" id="startup-modal-burn">$0/month</span>
+                                </div>
+                            </div>
+
+                            <div class="kc-game-founder-profile">
+                                <h4>Founder Profile</h4>
+                                <p><strong id="startup-modal-founder">Founder Name</strong></p>
+                                <p class="kc-game-founder-bio" id="startup-modal-founder-bio">Founder bio...</p>
+                            </div>
+                        </div>
+
+                        <div class="kc-game-investment-panel">
+                            <h4>Investment Terms</h4>
+                            <div class="kc-game-investment-controls">
+                                <div class="form-group">
+                                    <label class="form-label">Investment Amount</label>
+                                    <input type="range" id="investment-amount" class="kc-game-slider" min="100000" max="5000000" step="50000" value="500000">
+                                    <div class="kc-game-slider-values">
+                                        <span>$100K</span>
+                                        <span id="investment-amount-display">$500K</span>
+                                        <span>$5M</span>
+                                    </div>
+                                </div>
+
+                                <div class="kc-game-investment-type">
+                                    <label class="form-label">Investment Type</label>
+                                    <select id="investment-type" class="form-control">
+                                        <option value="equity">Equity Investment</option>
+                                        <option value="debt">Debt Financing</option>
+                                        <option value="convertible">Convertible Note</option>
+                                    </select>
+                                </div>
+
+                                <div class="kc-game-investment-summary">
+                                    <div class="kc-game-summary-item">
+                                        <span>Equity Stake:</span>
+                                        <span id="equity-percentage">5%</span>
+                                    </div>
+                                    <div class="kc-game-summary-item">
+                                        <span>Post-Money Valuation:</span>
+                                        <span id="post-money-valuation">$10M</span>
+                                    </div>
+                                </div>
+
+                                <div class="kc-game-due-diligence">
+                                    <h5>Due Diligence</h5>
+                                    <button class="btn btn--outline btn--sm" id="review-financials">Review Financials ($10K)</button>
+                                    <button class="btn btn--outline btn--sm" id="founder-interview">Founder Interview ($5K)</button>
+                                    <button class="btn btn--outline btn--sm" id="market-analysis">Market Analysis ($15K)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kc-game-modal-footer">
+                    <button class="btn btn--primary" id="make-investment">Make Investment</button>
+                    <button class="btn btn--secondary" id="cancel-investment">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Modal -->
+        <div id="event-modal" class="kc-game-modal hidden">
+            <div class="kc-game-modal-content">
+                <div class="kc-game-modal-header">
+                    <h2 id="event-modal-title">Market Event</h2>
+                </div>
+                <div class="kc-game-modal-body">
+                    <p id="event-modal-description">Event description...</p>
+                    <div id="event-modal-impact" class="kc-game-event-impact"></div>
+                </div>
+                <div class="kc-game-modal-footer">
+                    <button class="btn btn--primary" id="acknowledge-event">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
